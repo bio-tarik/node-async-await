@@ -1,0 +1,35 @@
+{
+  "name": "async-await",
+  "version": "1.0.0",
+  "description": "Small project developed when watching this tutorial: https://www.udemy.com/the-complete-nodejs-developer-course-2/",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm run check",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'",
+    "check": "./node_modules/.bin/eslint ./**.js .",
+    "start": "node server/server.js",
+    "start-watch": "nodemon --exec 'npm start'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bio-tarik/node-async-await.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bio-tarik/node-async-await/issues"
+  },
+  "homepage": "https://github.com/bio-tarik/node-async-await#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "nodemon": "^1.18.3"
+  }
+}

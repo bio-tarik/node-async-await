@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "no-return-assign": 0
+  },
+  "env": {
+    "jasmine": true
+  }
+}
