@@ -25,6 +25,22 @@ const getCountriesPromise = (currencyCode) => {
     .then(res => res.data.map(country => country.name));
 };
 
+const convertCurrencyPromise = (from, to, amount) => {
+  let convertedAmount;
+
+  return getExchangeRatePromise(from, to)
+    .then((rate) => {
+      convertedAmount = (amount * rate).toFixed(2);
+
+      return getCountriesPromise(to);
+    })
+    .then((countries) => {
+      console.log(countries);
+      return `${amount} ${from} is worth ${convertedAmount} ${to}.
+You can spend these in the following countries: ${countries.join(', ')}`;
+    });
+};
+
 // Using async-await
 const getExchangeRate = async (from, to) => {
   const url = `http://data.fixer.io/api/latest?access_key=${fixerApiKey}`;
@@ -43,18 +59,19 @@ const getCountries = async (currencyCode) => {
   return res.data.map(country => country.name);
 };
 
-getExchangeRatePromise('USD', 'CAD').then((rate) => {
-  console.log(rate);
+const convertCurrency = async (from, to, amount) => {
+  const rate = await getExchangeRate(from, to);
+  const countries = await getCountries(to);
+  const convertedAmount = (amount * rate).toFixed(2);
+
+  return `${amount} ${from} is worth ${convertedAmount} ${to}.
+You can spend these in the following countries: ${countries.join(', ')}`;
+};
+
+convertCurrencyPromise('USD', 'CAD', 20).then((msg) => {
+  console.log(msg);
 });
 
-getExchangeRate('USD', 'CAD').then((rate) => {
-  console.log(rate);
-});
-
-getCountriesPromise('EUR').then((countries) => {
-  console.log(countries);
-});
-
-getCountries('EUR').then((countries) => {
-  console.log(countries);
+convertCurrency('USD', 'EUR', 20).then((msg) => {
+  console.log(msg);
 });
