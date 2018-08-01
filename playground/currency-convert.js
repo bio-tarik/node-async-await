@@ -43,20 +43,32 @@ You can spend these in the following countries: ${countries.join(', ')}`;
 
 // Using async-await
 const getExchangeRate = async (from, to) => {
-  const url = `http://data.fixer.io/api/latest?access_key=${fixerApiKey}`;
-  const res = await axios.get(url);
+  try {
+    const url = `http://data.fixer.io/api/latest?access_key=${fixerApiKey}`;
+    const res = await axios.get(url);
 
-  const euro = 1 / res.data.rates[from];
-  const rate = euro * res.data.rates[to];
+    const euro = 1 / res.data.rates[from];
+    const rate = euro * res.data.rates[to];
 
-  return rate;
+    if (Number.isNaN(Number(rate))) {
+      throw new Error();
+    }
+
+    return rate;
+  } catch (e) {
+    throw new Error(`Unable to get exchange rate for ${from} and ${to}.`);
+  }
 };
 
 const getCountries = async (currencyCode) => {
-  const url = `http://restcountries.eu/rest/v2/currency/${currencyCode}`;
-  const res = await axios.get(url);
+  try {
+    const url = `http://restcountries.eu/rest/v2/currency/${currencyCode}`;
+    const res = await axios.get(url);
 
-  return res.data.map(country => country.name);
+    return res.data.map(country => country.name);
+  } catch (e) {
+    throw new Error(`Unable to get countries that use ${currencyCode}.`);
+  }
 };
 
 const convertCurrency = async (from, to, amount) => {
@@ -74,4 +86,4 @@ convertCurrencyPromise('USD', 'CAD', 20).then((msg) => {
 
 convertCurrency('USD', 'EUR', 20).then((msg) => {
   console.log(msg);
-});
+}).catch(e => console.log(e.message));
